@@ -1,0 +1,404 @@
+1.Explore and explain the various methods in console function
+
+(Ans ) 1. console.log():
+        Mainly used to log(print) the output to the console. We can put any type inside the log(), be it a string, array, object, boolean etc.
+        
+        2.console.error()
+
+        Used to log error message to the console. Useful in testing of code. By default the error message will be highlighted with red color.
+
+        3.console.warn()
+
+        Used to log warning message to the console. By default the warning message will be highlighted with yellow color.
+
+        4.console.clear()
+
+        Used to clear the console. The console will be cleared, in case of Chrome a simple overlayed text will be printed like :
+        ‘Console was cleared’ while in firefox no message is returned.
+
+        5.console.time() and console.timeEnd()
+
+        Whenever we want to know the amount of time spend by a block or a function, we can make use of the time() and
+        timeEnd() methods provided by the javascript console object. They take a label which must be same, and the code inside can 
+        be anything( function, object, simple console).
+
+        6.console.timeEnd('abc'); 
+
+        In the above code sample, we can see that the label is ‘abc’ which is same for both the time() and the timeEnd() method. 
+        If we increase the amount of code inside the block defined by these methods, then the time will increase. 
+        It is also worth remembering that the time returned to the console will be in milliseconds and might be different each 
+        time we refresh the page.
+
+        7.console.table()
+
+        This method allows us to generate a table inside a console. The input must be an array or an object which will be shown as a table.
+
+        8.console.count()
+
+        This method is used to count the number that the function hit by this counting method.
+
+        9.console.group() and console.groupEnd()
+
+        group() and groupEnd() methods of the console object allows us to group contents in a separate block, which will be indented.
+        Just like the time() and the timeEnd() they also accepts label, again of same value.
+
+
+Question 2 :
+Write the difference between var, let and const with code examples.
+
+Ans:1.VAR:
+Before the advent of ES6, var declarations ruled as King. There are issues associated with variables declared with var though.
+ That is why it was necessary for new ways to declare variables to emerge. First though, let us get to understand var more before
+ we discuss one of such issues.
+
+>Scope of var:
+
+Scope essentially means where these variables are available for use. var declarations are globally scoped or function/locally scoped.
+It is globally scoped when a var variable is declared outside a function. This means that any variable that is declared with var outside
+a function block is available for use in the whole window. var is function scoped when it is declared within a function. 
+This means that it is available and can be accessed only within that function.
+To understand further, look at the example below.
+    var greeter = "hey hi";
+
+    function newFunction() {
+        var hello = "hello";
+    }
+Here, greeter is globally scoped because it exists outside a function while hello is function scoped. 
+So we cannot access the variable hello outside of a function. So if we do this:
+    var tester = "hey hi";
+
+    function newFunction() {
+        var hello = "hello";
+    }
+    console.log(hello); // error: hello is not defined
+We'll get an error which is as a result of hello not being available outside the function.
+
+var variables can be re-declared and updated
+
+That means that we can do this within the same scope and won't get an error.
+    var greeter = "hey hi";
+    var greeter = "say Hello instead";
+and this also
+    var greeter = "hey hi";
+    greeter = "say Hello instead";
+>Hoisting of var:
+
+    Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution.
+    What this means is that if we do this:
+         console.log (greeter);
+         var greeter = "say hello"
+    
+   
+
+>Problem with var:
+
+    There's a weakness that comes with var. I'll use the example below to explain this.
+         var greeter = "hey hi";
+         var times = 4;
+
+         if (times > 3) {
+            var greeter = "say Hello instead"; 
+          }
+
+         console.log(greeter) //"say Hello instead"
+    So, since times > 3 returns true, greeter is redefined to "say Hello instead". While this is not a problem if you knowingly
+    want greeter to be redefined, it becomes a problem when you do not realize that a variable greeter has already been defined before.
+    If you have use greeter in other parts of your code, you might be surprised at the output you might get. This might cause a lot of 
+    bugs in your code. This is why the let and const is necessary.
+
+2.LET:
+   let is preferred for variable declaration now. It's no surprise as it comes as an improvement to the var declarations. 
+   It also solves this problem that was raised in the last subheading. Let's consider why this is so.
+
+>let is block scoped
+
+   A block is chunk of code bounded by {}. A block lives in curly braces. Anything within curly braces is a block. 
+   So a variable declared in a block with the let is only available for use within that block.
+   Let me explain this with an example.
+       let greeting = "say Hi";
+       let times = 4;
+
+       if (times > 3) {
+          let hello = "say Hello instead";
+          console.log(hello);//"say Hello instead"
+        }
+       console.log(hello) // hello is not defined
+   We see that using hello outside its block(the curly braces where it was defined) returns an error. This is because let variables are block scoped .
+
+>let can be updated but not re-declared.
+
+    Just like var, a variable declared with let can be updated within its scope. Unlikevar, a let variable cannot be re-declared within its scope. 
+    So while this will work,
+         let greeting = "say Hi";
+         greeting = "say Hello instead";
+    this will return an error.
+         let greeting = "say Hi";
+         let greeting = "say Hello instead";//error: Identifier 'greeting' has already been declared
+   However, if the same variable is defined in different scopes, there will be no error.
+         let greeting = "say Hi";
+         if (true) {
+             let greeting = "say Hello instead";
+             console.log(greeting);//"say Hello instead"
+         }
+         console.log(greeting);//"say Hi"
+   Why is there no error? This is because both instances are treated as different variables since they have different scopes.
+
+   This fact makes let a better choice than var. When using let, you don't have to bother if you have used a name for a variable before
+   as a variable exists only within its scope. Also, since a variable cannot be declared more than once within a scope, then the problem 
+   discussed earlier that occurs with var does not occur.
+
+>Hoisting of let
+   Just like var, let declarations are hoisted to the top. Unlike var which is initialized as undefined, 
+   the let keyword is not initialized. So if you try to use a let variable before declaration, you'll get a Reference Error.
+
+3.CONST:
+   Variables declared with the const maintain constant values. const declarations share some similarities with let declarations.
+
+>const declarations are block scoped
+
+   Like let declarations, const declarations can only be accessed within the block it was declared.
+
+>const cannot be updated or re-declared
+
+  This means that the value of a variable declared with const remains the same within its scope.
+  It cannot be updated or re-declared. So if we declare a variable with const, we can neither do this
+    const greeting = "say Hi";
+    greeting = "say Hello instead";//error : Assignment to constant variable. 
+  nor this
+    const greeting = "say Hi";
+    const greeting = "say Hello instead";//error : Identifier 'greeting' has already been declared
+  Every const declaration therefore, must be initialized at the time of declaration.
+  This behavior is somehow different when it comes to objects declared with const.
+  While a const object cannot be updated, the properties of this objects can be updated. Therefore, if we declare a const object as this
+      const greeting = {
+          message : "say Hi",
+         times : 4
+       }
+  while we cannot do this
+      const greeting = {
+         words : "Hello",
+         number : "five"
+     }//error :  Assignment to constant variable.
+  we can do this
+      greeting.message = "say Hello instead";
+  This will update the value of greeting.message without returning errors.
+
+>Hoisting of const
+
+  Just like let, const declarations are hoisted to the top but are not initialized.
+
+  So just in case, you missed the differences, here they are :
+
+  var declarations are globally scoped or function scoped while let and const are block scoped.
+
+  var variables can be updated and re-declared within its scope; let variables can be updated but not re-declared;
+  const variables can neither be updated nor re-declared.
+
+  They are all hoisted to the top of their scope but while varvariables are initialized with undefined, let and const variables are not initialized.
+
+  While var and let can be declared without being initialized, const must be initialized during declaration.
+
+Question 3 :
+Write a brief intro on available data types in Javascript
+
+Ans: Data Types in JavaScript
+    Data types basically specify what kind of data can be stored and manipulated within a program.
+
+    There are six basic data types in JavaScript which can be divided into three main categories:
+    primitive (or primary), composite (or reference), and special data types. String, Number, and Boolean are primitive data types.
+    Object, Array, and Function (which are all types of objects) are composite data types. Whereas Undefined and Null are special data types.
+
+   Primitive data types can hold only one value at a time, whereas composite data types can hold collections of values and more complex entities.
+   Let's discuss each one of them in detail.
+
+1.The String Data Type
+   The string data type is used to represent textual data (i.e. sequences of characters). 
+   Strings are created using single or double quotes surrounding one or more characters, as shown below:
+
+      ExampleTry this code »
+       var a = 'Hi there!';  // using single quotes
+       var b = "Hi there!";  // using double quotes
+     You can include quotes inside the string as long as they don't match the enclosing quotes.
+
+      ExampleTry this code »
+         var a = "Let's have a cup of coffee."; // single quote inside double quotes
+         var b = 'He said "Hello" and left.';  // double quotes inside single quotes
+         var c = 'We\'ll never give up.';     // escaping single quote with backslash
+    You will learn more about the strings in JavaScript strings chapter.
+
+2.The Number Data Type
+   The number data type is used to represent positive or negative numbers with or without decimal place, or numbers written using exponential notation
+      
+     ExampleTry this code »
+        var a = 25;         // integer
+        var b = 80.5;       // floating-point number
+	var c = 4.25e+6;    // exponential notation, same as 4.25e6 or 4250000
+	var d = 4.25e-6;    // exponential notation, same as 0.00000425
+     The Number data type also includes some special values which are: Infinity, -Infinity and NaN.
+     Infinity represents the mathematical Infinity ∞, which is greater than any number. 
+     Infinity is the result of dividing a nonzero number by 0, as demonstrated below:
+
+	ExampleTry this code »
+	 alert(16 / 0);  // Output: Infinity
+	 alert(-16 / 0); // Output: -Infinity
+	 alert(16 / -0); // Output: -Infinity
+   While NaN represents a special Not-a-Number value. It is a result of an invalid or an undefined mathematical operation,
+   like taking the square root of -1 or dividing 0 by 0, etc.
+
+	ExampleTry this code »
+	alert("Some text" / 2);       // Output: NaN
+	alert("Some text" / 2 + 10);  // Output: NaN
+	alert(Math.sqrt(-1));         // Output: NaN
+   
+3.The Boolean Data Type
+   The Boolean data type can hold only two values: true or false. It is typically used to store values
+   like yes (true) or no (false), on (true) or off (false), etc. as demonstrated below:
+
+	ExampleTry this code »
+	var isReading = true;   // yes, I'm reading
+	var isSleeping = false; // no, I'm not sleeping
+  Boolean values also come as a result of comparisons in a program. 
+
+	ExampleTry this code »
+	var a = 2, b = 5, c = 10;
+ 
+	alert(b > a) // Output: true
+	alert(b > c) // Output: false
+ 
+4.The Undefined Data Type
+   The undefined data type can only have one value-the special value undefined.
+   If a variable has been declared, but has not been assigned a value, has the value undefined.
+
+	ExampleTry this code »
+	var a;
+	var b = "Hello World!"
+ 
+	alert(a) // Output: undefined
+	alert(b) // Output: Hello World!
+
+5.The Null Data Type
+   This is another special data type that can have only one value-the null value.
+    A null value means that there is no value. It is not equivalent to an empty string ("") or 0, it is simply nothing.
+
+    A variable can be explicitly emptied of its current contents by assigning it the null value.
+
+	ExampleTry this code »
+	var a = null;
+	alert(a); // Output: null
+ 
+	var b = "Hello World!"
+	alert(b); // Output: Hello World!
+ 
+	b = null;
+	alert(b) // Output: null
+
+6.The Object Data Type
+    The object is a complex data type that allows you to store collections of data.
+
+    An object contains properties, defined as a key-value pair. A property key (name) is always a string,
+    but the value can be any data type, like strings, numbers, booleans, or complex data types like arrays, function and other objects. 
+  
+    The following example will show you the simplest way to create an object in JavaScript.
+
+	ExampleTry this code »
+	var emptyObject = {};
+	var person = {"name": "Clark", "surname": "Kent", "age": "36"};
+ 
+	// For better reading
+	var car = {
+    	"modal": "BMW X3",
+    	"color": "white",
+    	"doors": 5
+	}
+    You can omit the quotes around property name if the name is a valid JavaScript name.
+    That means quotes are required around "first-name" but are optional around firstname. So the car object in the above example can also be written as:
+
+	ExampleTry this code »
+	var car = {
+   	 modal: "BMW X3",
+    	color: "white",
+    	doors: 5
+	}
+  You will learn more about the objects in JavaScript objects chapter.
+
+7.The Array Data Type
+   An array is a type of object used for storing multiple values in single variable. Each value (also called an element) in 
+   an array has a numeric position, known as its index, and it may contain data of any data type-numbers, strings, booleans,
+   functions, objects, and even other arrays. The array index starts from 0, so that the first array element is arr[0] not arr[1].
+
+   The simplest way to create an array is by specifying the array elements as a comma-separated list enclosed by square brackets, as shown in the example below:
+
+	ExampleTry this code »
+	var colors = ["Red", "Yellow", "Green", "Orange"];
+	var cities = ["London", "Paris", "New York"];
+ 
+	alert(colors[0]);   // Output: Red
+	alert(cities[2]);   // Output: New York
+   
+
+8.The Function Data Type
+   The function is callable object that executes a block of code. Since functions are objects, so it is possible
+   to assign them to variables, as shown in the example below:
+
+	ExampleTry this code »
+	var greeting = function(){ 
+    		return "Hello World!"; 
+	}
+ 
+	// Check the type of greeting variable
+	alert(typeof greeting) // Output: function
+	alert(greeting());     // Output: Hello World!
+  In fact, functions can be used at any place any other value can be used. Functions can be stored in variables, objects, and arrays.
+   Functions can be passed as arguments to other functions, and functions can be returned from functions. Consider the following function:
+
+	ExampleTry this code »
+		function createGreeting(name){
+   			 return "Hello, " + name;
+		}
+	function displayGreeting(greetingFunction, userName){
+   		 return greetingFunction(userName);
+		}
+ 
+	var result = displayGreeting(createGreeting, "Peter");
+	alert(result); // Output: Hello, Peter
+
+
+8.The typeof Operator
+   The typeof operator can be used to find out what type of data a variable or operand contains.
+   It can be used with or without parentheses (typeof(x) or typeof x).
+
+   The typeof operator is particularly useful in the situations when you need to process the values of different 
+   types differently, but you need to be very careful, because it may produce unexpected result in some cases, as demonstrated in the following example:
+
+	ExampleTry this code »
+	// Numbers
+	typeof 15;  // Returns: "number"
+	typeof 42.7;  // Returns: "number"
+	typeof 2.5e-4;  // Returns: "number"
+	typeof Infinity;  // Returns: "number"
+	typeof NaN;  // Returns: "number". Despite being "Not-A-Number"
+ 
+	// Strings
+	typeof '';  // Returns: "string"
+	typeof 'hello';  // Returns: "string"
+	typeof '12';  // Returns: "string". Number within quotes is typeof string
+ 
+	// Booleans
+	typeof true;  // Returns: "boolean"
+	typeof false;  // Returns: "boolean"
+ 
+	// Undefined
+	typeof undefined;  // Returns: "undefined"
+	typeof undeclaredVariable; // Returns: "undefined"
+ 
+	// Null
+	typeof Null;  // Returns: "object"
+ 
+	// Objects
+	typeof {name: "John", age: 18};  // Returns: "object"
+ 
+	// Arrays
+	typeof [1, 2, 4];  // Returns: "object"
+ 
+	// Functions
+	typeof function(){};  // Returns: "function"
